@@ -1,6 +1,7 @@
 // Sorts the array of length R2 whose first element is at RAM[R1] in ascending order in place. Sets R0 to True (-1) when complete.
 // (R0, R1, R2 refer to RAM[0], RAM[1], and RAM[2], respectively.)
 
+// Put your code here.
 @R3
 M=0
 
@@ -64,39 +65,7 @@ M=0
         @R8
         M=D      // R8 = array[j+1]
         
-        // Compare array[j] and array[j+1] with overflow protection
-        // First check if array[j] is negative
-        @R7
-        D=M      // D = array[j]
-        @ARR_J_NEGATIVE
-        D;JLT    // if array[j] < 0, jump to negative case
-        
-        // array[j] is non-negative
-        @R8
-        D=M      // D = array[j+1]
-        @NO_SWAP
-        D;JGE    // if array[j+1] >= 0, both non-negative, safe to subtract
-        // array[j] >= 0 and array[j+1] < 0, so array[j] > array[j+1], need swap
-        @SWAP_ELEMENTS
-        0;JMP
-        
-        (ARR_J_NEGATIVE)
-        // array[j] is negative
-        @R8
-        D=M      // D = array[j+1]
-        @SWAP_ELEMENTS
-        D;JGE    // if array[j+1] >= 0, then array[j] < array[j+1], no swap needed
-        // Both are negative, safe to subtract
-        @R7
-        D=M      // D = array[j]
-        @R8
-        D=D-M    // D = array[j] - array[j+1]
-        @NO_SWAP
-        D;JLE    // if array[j] <= array[j+1], no swap needed
-        @SWAP_ELEMENTS
-        0;JMP
-        
-        // Handle case where both are non-negative
+        // Compare array[j] and array[j+1]
         @R7
         D=M      // D = array[j]
         @R8
@@ -104,7 +73,6 @@ M=0
         @NO_SWAP
         D;JLE    // if array[j] <= array[j+1], no swap needed
         
-        (SWAP_ELEMENTS)
         // Swap array[j] and array[j+1]
         // array[j] = array[j+1]
         @R8
