@@ -1,95 +1,37 @@
-// This file is based on part of www.nand2tetris.org
-// and the book "The Elements of Computing Systems"
-// by Nisan and Schocken, MIT Press.
-// File name: Mult.asm
+@R2	//GO TO FINAL ANSWER BOX
+M=0	//ZERO ANS BOX
 
-// Multiplies R1 and R2 and stores the result in R0.
-// (R0, R1, R2 refer to RAM[0], RAM[1], and RAM[2], respectively.)
+@R0
+D=M
+@END
+D;JEQ	//IF ONE PRODUCT IS ZERO
 
-// Put your code here.
+@R1
+D=M
+@END
+D;JEQ	//IF ONE PRODUCT IS ZERO
 
-    @R0
-    M=0
+@R0	//NOT NECESSARY
+D=M	//
+@3	//
+M=D	//ONLY TO KEEP THE NUMBERS BEING MUTLIPLED
 
-    @R1
-    D=M
-    @NEG1
-    D;JLT
-
-    @R2
-    D=M
-    @NEG2
-    D;JLT
-
-    @SIGN
-    M=1
-    @ABS_DONE
-    0;JMP
-
-(NEG1)
-    @R1
-    M=-M
-    @SIGN
-    M=-1
-    @R2
-    D=M
-    @NEG2_FIX
-    D;JGE
-    @R2
-    M=-M
-    @SIGN
-    M=1
-    @ABS_DONE
-    0;JMP
-
-(NEG2)
-    @R2
-    M=-M
-    @SIGN
-    M=-1
-    @ABS_DONE
-    0;JMP
-
-(NEG2_FIX)
-    @R2
-    M=-M
-    @SIGN
-    M=1
-    @ABS_DONE
-    0;JMP
-
-(ABS_DONE)
-    @R2
-    D=M
-    @COUNT
-    M=D
 
 (LOOP)
-    @COUNT
-    D=M
-    @END
-    D;JEQ
+@R1	//GET 2ND NUM
+D=M	//D HAS 2ND NUM
 
-    @R1
-    D=M
-    @R0
-    M=M+D
+@R2	//GO TO FINAL ANSWER BOX
+M=D+M	//RAM[2] NOW HAS 2ND NUMBER + ITS PREVIOUS VALUE
 
-    @COUNT
-    M=M-1
+@R3	//GET 1ST NUM
+M=M-1	//1ST NUM-1
 
-    @LOOP
-    0;JMP
+D=M	//IDK WHY D NEEDS TO =M?
+@LOOP	//WHERE TO JUMP TO
+D;JGT	//JUMP		    (WHY CANT THIS BE M;JGT?)
+
 
 (END)
-    @SIGN
-    D=M
-    @POS
-    D;JGE
-
-    @R0
-    M=-M
-
-(POS)
-    @END
-    0;JMP
+@END
+0;JMP	//FOREVER LOOP
